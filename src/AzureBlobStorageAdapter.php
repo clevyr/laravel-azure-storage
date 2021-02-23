@@ -7,7 +7,7 @@ use League\Flysystem\AzureBlobStorage\AzureBlobStorageAdapter as BaseAzureBlobSt
 use Matthewbdaly\LaravelAzureStorage\Exceptions\InvalidCustomUrl;
 use MicrosoftAzure\Storage\Blob\BlobRestProxy;
 use MicrosoftAzure\Storage\Blob\BlobSharedAccessSignatureHelper;
-use MicrosoftAzure\Storage\Blob\ServiceException;
+use MicrosoftAzure\Storage\Common\Exceptions\ServiceException;
 use MicrosoftAzure\Storage\Common\Internal\Resources;
 
 /**
