@@ -7,6 +7,7 @@ use League\Flysystem\AzureBlobStorage\AzureBlobStorageAdapter as BaseAzureBlobSt
 use Matthewbdaly\LaravelAzureStorage\Exceptions\InvalidCustomUrl;
 use MicrosoftAzure\Storage\Blob\BlobRestProxy;
 use MicrosoftAzure\Storage\Blob\BlobSharedAccessSignatureHelper;
+use MicrosoftAzure\Storage\Blob\ServiceException;
 use MicrosoftAzure\Storage\Common\Internal\Resources;
 
 /**
@@ -112,5 +113,20 @@ final class AzureBlobStorageAdapter extends BaseAzureBlobStorageAdapter
         );
 
         return sprintf('%s?%s', $this->getUrl($path), $sasString);
+    }
+
+    public function setMetadata($path, $metadata){
+        $path = $this->applyPathPrefix($path);
+
+        try {
+            
+            $this->client->setBlobMetadata($this->container, $path, $metadata);            
+        } catch (ServiceException $exception) {
+            if ($exception->getCode() !== 404) {
+                throw $exception;
+            }
+
+            return false;
+        }
     }
 }
